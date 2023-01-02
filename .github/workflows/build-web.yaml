@@ -20,7 +20,7 @@ jobs:
     - run: flutter test
     - run: flutter build web
 
-    - name: artifact upload
+    - name: Upload artifact
       uses: actions/upload-artifact@v3
       with:
         name: password-generator-web
