@@ -18,11 +18,14 @@ jobs:
         channel: 'stable'
     - run: flutter pub get
     # - run: flutter test
-    - run: flutter build web
-
-    - name: Upload artifact
-      uses: actions/upload-artifact@v3
+    - name: Get repository name
+      id: version
+      run: |
+        REPOSITORY=$(echo ${{ github.repository }} | sed -e "s#.*/##")
+        echo ::set-output name=repository::$REPOSITORY
+    - run: flutter build web --web-renderer html --base-href /${{ steps.version.outputs.repository }}/
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
       with:
-        name: password-generator-web
-        path: ./build/web/
-        retention-days: 5
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./build/web
