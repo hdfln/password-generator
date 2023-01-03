@@ -124,7 +124,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       ],
                     ),
                   ),
-                  CheckBoxWithLabel(
+                  SwitchWithLabel(
                     label: '数字',
                     callbackOnChanged: (bool? value) {
                       setState(() {
@@ -133,7 +133,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       });
                     },
                   ),
-                  CheckBoxWithLabel(
+                  SwitchWithLabel(
                     label: '記号',
                     callbackOnChanged: (bool? value) {
                       setState(() {
@@ -188,8 +188,8 @@ bool containsCharacterFrom(String s, String chars) {
   return s.split('').toSet().intersection(chars.split('').toSet()).isNotEmpty;
 }
 
-class CheckBoxWithLabel extends StatefulWidget {
-  const CheckBoxWithLabel({
+class SwitchWithLabel extends StatefulWidget {
+  const SwitchWithLabel({
     super.key,
     required this.label,
     required this.callbackOnChanged,
@@ -199,17 +199,17 @@ class CheckBoxWithLabel extends StatefulWidget {
   final Function callbackOnChanged;
 
   @override
-  State<CheckBoxWithLabel> createState() => _CheckBoxWithLabelState();
+  State<SwitchWithLabel> createState() => _SwitchWithLabelState();
 }
 
-class _CheckBoxWithLabelState extends State<CheckBoxWithLabel> {
+class _SwitchWithLabelState extends State<SwitchWithLabel> {
   bool _value = true;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Checkbox(
+        Switch(
           onChanged: (bool? value) {
             setState(() {
               _value = value!;
