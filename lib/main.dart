@@ -35,11 +35,25 @@ class _MyHomePageState extends State<MyHomePage> {
   int _length = 16;
   bool _withSymbol = false;
   late String _password = generatePassword(_length, _withSymbol);
+  final _controller = TextEditingController();
 
   void _updatePassword() {
     setState(() {
       _password = generatePassword(_length, _withSymbol);
+      _controller.text = _password;
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _controller.text = _password;
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -56,39 +70,26 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Row(
-                children: [
-                  Expanded(
-                    child: Container(
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        border:
-                            Border.all(color: Theme.of(context).primaryColor),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Stack(
-                        alignment: Alignment.centerRight,
-                        children: [
-                          Align(
-                              alignment: Alignment.centerLeft,
-                              child: SingleChildScrollView(
-                                scrollDirection: Axis.horizontal,
-                                child: Text(
-                                  _password,
-                                  style: Theme.of(context).textTheme.headline4,
-                                ),
-                              )),
-                          IconButton(
-                            icon: const Icon(Icons.redo),
-                            onPressed: () => _updatePassword(),
-                            iconSize:
-                                Theme.of(context).textTheme.headline4?.fontSize,
-                          ),
-                        ],
-                      ),
-                    ),
+              TextFormField(
+                controller: _controller,
+                readOnly: true,
+                maxLines: null,
+                decoration: InputDecoration(
+                  filled: true,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    borderSide: BorderSide.none,
                   ),
-                ],
+                  suffixIcon: IconButton(
+                    icon: const Icon(Icons.redo),
+                    splashRadius: 16,
+                    onPressed: () {
+                      setState(() {
+                        _updatePassword();
+                      });
+                    },
+                  ),
+                ),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -103,12 +104,10 @@ class _MyHomePageState extends State<MyHomePage> {
                           divisions: 24,
                           label: _length.toString(),
                           onChanged: (double value) {
-                            setState(
-                              () {
-                                _length = value.round().toInt();
-                                _updatePassword();
-                              },
-                            );
+                            setState(() {
+                              _length = value.round().toInt();
+                              _updatePassword();
+                            });
                           },
                         ),
                         Text('長さ：$_length'),
@@ -120,12 +119,10 @@ class _MyHomePageState extends State<MyHomePage> {
                       Checkbox(
                         activeColor: Colors.blue,
                         onChanged: (bool? value) {
-                          setState(
-                            () {
-                              _withSymbol = value!;
-                              _updatePassword();
-                            },
-                          );
+                          setState(() {
+                            _withSymbol = value!;
+                            _updatePassword();
+                          });
                         },
                         value: _withSymbol,
                       ),
