@@ -63,10 +63,11 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: Center(
-        child: Padding(
+        child: Container(
           padding: const EdgeInsets.symmetric(
             horizontal: 32.0,
           ),
+          constraints: const BoxConstraints(maxWidth: 640),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
