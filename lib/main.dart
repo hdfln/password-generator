@@ -124,33 +124,23 @@ class _MyHomePageState extends State<MyHomePage> {
                       ],
                     ),
                   ),
-                  Column(
-                    children: [
-                      Checkbox(
-                        onChanged: (bool? value) {
-                          setState(() {
-                            _withNumber = value!;
-                            _updatePassword();
-                          });
-                        },
-                        value: _withNumber,
-                      ),
-                      const Text('数字'),
-                    ],
+                  CheckBoxWithLabel(
+                    label: '数字',
+                    callbackOnChanged: (bool? value) {
+                      setState(() {
+                        _withNumber = value!;
+                        _updatePassword();
+                      });
+                    },
                   ),
-                  Column(
-                    children: [
-                      Checkbox(
-                        onChanged: (bool? value) {
-                          setState(() {
-                            _withSymbol = value!;
-                            _updatePassword();
-                          });
-                        },
-                        value: _withSymbol,
-                      ),
-                      const Text('記号'),
-                    ],
+                  CheckBoxWithLabel(
+                    label: '記号',
+                    callbackOnChanged: (bool? value) {
+                      setState(() {
+                        _withSymbol = value!;
+                        _updatePassword();
+                      });
+                    },
                   ),
                 ],
               ),
@@ -186,4 +176,40 @@ String generatePassword(int length, bool withNumber, bool withSymbol) {
       List.generate(length, (_) => charset[random.nextInt(charset.length)])
           .join();
   return randomStr;
+}
+
+class CheckBoxWithLabel extends StatefulWidget {
+  const CheckBoxWithLabel({
+    super.key,
+    required this.label,
+    required this.callbackOnChanged,
+  });
+
+  final String label;
+  final Function callbackOnChanged;
+
+  @override
+  State<CheckBoxWithLabel> createState() => _CheckBoxWithLabelState();
+}
+
+class _CheckBoxWithLabelState extends State<CheckBoxWithLabel> {
+  bool _value = true;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Checkbox(
+          onChanged: (bool? value) {
+            setState(() {
+              _value = value!;
+            });
+            widget.callbackOnChanged(_value);
+          },
+          value: _value,
+        ),
+        Text(widget.label),
+      ],
+    );
+  }
 }
