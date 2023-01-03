@@ -172,10 +172,20 @@ String generatePassword(int length, bool withNumber, bool withSymbol) {
   if (withNumber) charset += numbers;
   if (withSymbol) charset += symbols;
   final Random random = Random.secure();
-  final String randomStr =
-      List.generate(length, (_) => charset[random.nextInt(charset.length)])
-          .join();
-  return randomStr;
+
+  while (true) {
+    final String randomStr =
+        List.generate(length, (_) => charset[random.nextInt(charset.length)])
+            .join();
+
+    if (withNumber && !containsCharacterFrom(randomStr, numbers)) continue;
+    if (withSymbol && !containsCharacterFrom(randomStr, symbols)) continue;
+    return randomStr;
+  }
+}
+
+bool containsCharacterFrom(String s, String chars) {
+  return s.split('').toSet().intersection(chars.split('').toSet()).isNotEmpty;
 }
 
 class CheckBoxWithLabel extends StatefulWidget {
