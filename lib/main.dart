@@ -74,6 +74,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 controller: _controller,
                 readOnly: true,
                 maxLines: null,
+                onTap: () {
+                  _controller.selection = TextSelection(
+                    baseOffset: 0,
+                    extentOffset: _controller.value.text.length,
+                  );
+                },
                 decoration: InputDecoration(
                   filled: true,
                   border: OutlineInputBorder(
@@ -81,6 +87,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     borderSide: BorderSide.none,
                   ),
                   suffixIcon: IconButton(
+                    color: Theme.of(context).disabledColor,
                     icon: const Icon(Icons.redo),
                     splashRadius: 16,
                     onPressed: () {
@@ -117,7 +124,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   Column(
                     children: [
                       Checkbox(
-                        activeColor: Colors.blue,
                         onChanged: (bool? value) {
                           setState(() {
                             _withSymbol = value!;
