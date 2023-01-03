@@ -33,13 +33,14 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _length = 16;
-  bool _withSymbol = false;
-  late String _password = generatePassword(_length, _withSymbol);
+  bool _withNumber = true;
+  bool _withSymbol = true;
+  late String _password = generatePassword(_length, _withNumber, _withSymbol);
   final _controller = TextEditingController();
 
   void _updatePassword() {
     setState(() {
-      _password = generatePassword(_length, _withSymbol);
+      _password = generatePassword(_length, _withNumber, _withSymbol);
       _controller.text = _password;
     });
   }
@@ -83,6 +84,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 },
                 decoration: InputDecoration(
                   filled: true,
+                  labelText: '生成されたパスワード',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
                     borderSide: BorderSide.none,
@@ -127,6 +129,20 @@ class _MyHomePageState extends State<MyHomePage> {
                       Checkbox(
                         onChanged: (bool? value) {
                           setState(() {
+                            _withNumber = value!;
+                            _updatePassword();
+                          });
+                        },
+                        value: _withNumber,
+                      ),
+                      const Text('数字'),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      Checkbox(
+                        onChanged: (bool? value) {
+                          setState(() {
                             _withSymbol = value!;
                             _updatePassword();
                           });
@@ -157,11 +173,14 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-String generatePassword([int length = 20, bool withSymbol = false]) {
-  const String alphaNumeric =
-      '0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz';
-  const String symbol = '!@#\$%^&*()\'"=_`:;?~|+-\\/[]{}<>';
-  final charset = withSymbol ? alphaNumeric + symbol : alphaNumeric;
+String generatePassword(int length, bool withNumber, bool withSymbol) {
+  const String alphabets =
+      'ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz';
+  const String numbers = '0123456789';
+  const String symbols = '!@#\$%^&*()\'"=_`:;?~|+-\\/[]{}<>';
+  String charset = alphabets;
+  if (withNumber) charset += numbers;
+  if (withSymbol) charset += symbols;
   final Random random = Random.secure();
   final String randomStr =
       List.generate(length, (_) => charset[random.nextInt(charset.length)])
