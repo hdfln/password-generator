@@ -32,6 +32,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  final int _minLength = 8;
+  final int _maxLength = 32;
   int _length = 16;
   bool _withNumber = true;
   bool _withSymbol = true;
@@ -72,6 +74,56 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
+              Column(
+                children: [
+                  Row(
+                    children: [
+                      Text(_minLength.toString()),
+                      Expanded(
+                        child: Slider(
+                          value: _length.toDouble(),
+                          min: _minLength.toDouble(),
+                          max: _maxLength.toDouble(),
+                          divisions: _maxLength - _minLength,
+                          label: _length.toString(),
+                          onChanged: (double value) {
+                            setState(() {
+                              _length = value.round().toInt();
+                              _updatePassword();
+                            });
+                          },
+                        ),
+                      ),
+                      Text(_maxLength.toString()),
+                    ],
+                  ),
+                  Text('長さ：$_length'),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SwitchWithLabel(
+                        label: '数字',
+                        callbackOnChanged: (bool? value) {
+                          setState(() {
+                            _withNumber = value!;
+                            _updatePassword();
+                          });
+                        },
+                      ),
+                      SwitchWithLabel(
+                        label: '記号',
+                        callbackOnChanged: (bool? value) {
+                          setState(() {
+                            _withSymbol = value!;
+                            _updatePassword();
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              Divider(height: 64),
               TextFormField(
                 controller: _controller,
                 readOnly: true,
@@ -100,49 +152,6 @@ class _MyHomePageState extends State<MyHomePage> {
                     },
                   ),
                 ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Expanded(
-                    child: Column(
-                      children: [
-                        Slider(
-                          value: _length.toDouble(),
-                          min: 8,
-                          max: 32,
-                          divisions: 24,
-                          label: _length.toString(),
-                          onChanged: (double value) {
-                            setState(() {
-                              _length = value.round().toInt();
-                              _updatePassword();
-                            });
-                          },
-                        ),
-                        Text('長さ：$_length'),
-                      ],
-                    ),
-                  ),
-                  SwitchWithLabel(
-                    label: '数字',
-                    callbackOnChanged: (bool? value) {
-                      setState(() {
-                        _withNumber = value!;
-                        _updatePassword();
-                      });
-                    },
-                  ),
-                  SwitchWithLabel(
-                    label: '記号',
-                    callbackOnChanged: (bool? value) {
-                      setState(() {
-                        _withSymbol = value!;
-                        _updatePassword();
-                      });
-                    },
-                  ),
-                ],
               ),
             ],
           ),
