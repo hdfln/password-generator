@@ -74,56 +74,82 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Column(
-                children: [
-                  Row(
-                    children: [
-                      Text(_minLength.toString()),
-                      Expanded(
-                        child: Slider(
-                          value: _length.toDouble(),
-                          min: _minLength.toDouble(),
-                          max: _maxLength.toDouble(),
-                          divisions: _maxLength - _minLength,
-                          label: _length.toString(),
-                          onChanged: (double value) {
-                            setState(() {
-                              _length = value.round().toInt();
-                              _updatePassword();
-                            });
+              Card(
+                child: ListTile(
+                  leading: const Text('長さ'),
+                  trailing: FractionallySizedBox(
+                    widthFactor: 0.7,
+                    child: Row(
+                      children: [
+                        IconButton(
+                          splashRadius: 24,
+                          onPressed: () {
+                            if (_length > _minLength) {
+                              setState(() {
+                                _length--;
+                              });
+                            }
                           },
+                          icon: const Icon(Icons.remove),
                         ),
-                      ),
-                      Text(_maxLength.toString()),
-                    ],
+                        Expanded(
+                          child: SliderTheme(
+                            data: SliderTheme.of(context).copyWith(
+                              thumbShape: PolygonSliderThumb(
+                                thumbRadius: 16.0,
+                                sliderValue: _length.toDouble(),
+                              ),
+                            ),
+                            child: Slider(
+                              value: _length.toDouble(),
+                              min: _minLength.toDouble(),
+                              max: _maxLength.toDouble(),
+                              divisions: _maxLength - _minLength,
+                              label: _length.toString(),
+                              onChanged: (double value) {
+                                setState(() {
+                                  _length = value.round().toInt();
+                                  _updatePassword();
+                                });
+                              },
+                            ),
+                          ),
+                        ),
+                        IconButton(
+                          splashRadius: 24,
+                          onPressed: () {
+                            if (_length < _maxLength) {
+                              setState(() {
+                                _length++;
+                              });
+                            }
+                          },
+                          icon: const Icon(Icons.add),
+                        ),
+                      ],
+                    ),
                   ),
-                  Text('長さ：$_length'),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SwitchWithLabel(
-                        label: '数字',
-                        callbackOnChanged: (bool? value) {
-                          setState(() {
-                            _withNumber = value!;
-                            _updatePassword();
-                          });
-                        },
-                      ),
-                      SwitchWithLabel(
-                        label: '記号',
-                        callbackOnChanged: (bool? value) {
-                          setState(() {
-                            _withSymbol = value!;
-                            _updatePassword();
-                          });
-                        },
-                      ),
-                    ],
-                  ),
-                ],
+                ),
               ),
-              Divider(height: 64),
+              SwitchWithLabel(
+                label: '数字',
+                callbackOnChanged: (bool? value) {
+                  setState(() {
+                    _withNumber = value!;
+                    _updatePassword();
+                  });
+                },
+              ),
+              SwitchWithLabel(
+                label: '記号',
+                callbackOnChanged: (bool? value) {
+                  setState(() {
+                    _withSymbol = value!;
+                    _updatePassword();
+                  });
+                },
+              ),
+              const Divider(height: 64),
               TextFormField(
                 controller: _controller,
                 readOnly: true,
@@ -143,7 +169,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                   suffixIcon: IconButton(
                     color: Theme.of(context).disabledColor,
-                    icon: const Icon(Icons.redo),
+                    icon: const Icon(Icons.autorenew),
                     splashRadius: 16,
                     onPressed: () {
                       setState(() {
@@ -216,19 +242,83 @@ class _SwitchWithLabelState extends State<SwitchWithLabel> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Switch(
-          onChanged: (bool? value) {
-            setState(() {
-              _value = value!;
-            });
-            widget.callbackOnChanged(_value);
-          },
-          value: _value,
-        ),
-        Text(widget.label),
-      ],
+    return Card(
+      child: SwitchListTile(
+        title: Text(widget.label),
+        onChanged: (bool? value) {
+          setState(() {
+            _value = value!;
+          });
+          widget.callbackOnChanged(_value);
+        },
+        value: _value,
+      ),
     );
+  }
+}
+
+class PolygonSliderThumb extends SliderComponentShape {
+  final double thumbRadius;
+  final double sliderValue;
+
+  const PolygonSliderThumb({
+    required this.thumbRadius,
+    required this.sliderValue,
+  });
+
+  @override
+  Size getPreferredSize(bool isEnabled, bool isDiscrete) {
+    return Size.fromRadius(thumbRadius);
+  }
+
+  @override
+  void paint(
+    PaintingContext context,
+    Offset center, {
+    required Animation<double> activationAnimation,
+    required Animation<double> enableAnimation,
+    required bool isDiscrete,
+    required TextPainter labelPainter,
+    required RenderBox parentBox,
+    required SliderThemeData sliderTheme,
+    required TextDirection textDirection,
+    required double value,
+    required double textScaleFactor,
+    required Size sizeWithOverflow,
+  }) {
+    // Define the slider thumb design here
+    final Canvas canvas = context.canvas;
+
+    canvas.drawCircle(
+      center,
+      thumbRadius,
+      Paint()
+        ..color = sliderTheme.thumbColor ?? Colors.black
+        ..style = PaintingStyle.fill,
+    );
+
+    TextSpan span = TextSpan(
+      style: TextStyle(
+        fontSize: thumbRadius,
+        fontWeight: FontWeight.w700,
+        color: Colors.white,
+      ),
+      text: sliderValue.round().toString(),
+    );
+
+    TextPainter tp = TextPainter(
+      text: span,
+      textAlign: TextAlign.center,
+      textDirection: TextDirection.ltr,
+    );
+
+    tp.layout();
+
+    Offset textCenter = Offset(
+      center.dx - (tp.width / 2),
+      center.dy - (tp.height / 2),
+    );
+
+    tp.paint(canvas, textCenter);
   }
 }
