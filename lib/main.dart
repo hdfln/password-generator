@@ -104,13 +104,15 @@ class _MyHomePageState extends State<MyHomePage> {
                               value: _length.toDouble(),
                               min: _minLength.toDouble(),
                               max: _maxLength.toDouble(),
-                              divisions: _maxLength - _minLength,
                               label: _length.toString(),
                               onChanged: (double value) {
-                                setState(() {
-                                  _length = value.round().toInt();
-                                  _updatePassword();
-                                });
+                                final int newLength = value.round().toInt();
+                                if (_length != newLength) {
+                                  setState(() {
+                                    _length = value.round().toInt();
+                                    _updatePassword();
+                                  });
+                                }
                               },
                             ),
                           ),
