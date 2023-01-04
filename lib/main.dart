@@ -76,60 +76,62 @@ class _MyHomePageState extends State<MyHomePage> {
             children: <Widget>[
               Card(
                 child: ListTile(
-                  leading: const Text('長さ'),
-                  trailing: FractionallySizedBox(
-                    widthFactor: 0.7,
-                    child: Row(
-                      children: [
-                        IconButton(
-                          splashRadius: 24,
-                          onPressed: () {
-                            if (_length > _minLength) {
-                              setState(() {
-                                _length--;
-                              });
-                            }
-                          },
-                          icon: const Icon(Icons.remove),
-                        ),
-                        Expanded(
-                          child: SliderTheme(
-                            data: SliderTheme.of(context).copyWith(
+                  title: Row(
+                    children: [
+                      const Text('長さ'),
+                      const Spacer(),
+                      IconButton(
+                        splashRadius: 16,
+                        onPressed: () {
+                          if (_length > _minLength) {
+                            setState(() {
+                              _length--;
+                            });
+                          }
+                        },
+                        icon: const Icon(Icons.remove),
+                      ),
+                      Expanded(
+                        flex: 10,
+                        child: SliderTheme(
+                          data: SliderTheme.of(context).copyWith(
                               thumbShape: PolygonSliderThumb(
                                 thumbRadius: 16.0,
                                 sliderValue: _length.toDouble(),
                               ),
-                            ),
-                            child: Slider(
-                              value: _length.toDouble(),
-                              min: _minLength.toDouble(),
-                              max: _maxLength.toDouble(),
-                              label: _length.toString(),
-                              onChanged: (double value) {
-                                final int newLength = value.round().toInt();
-                                if (_length != newLength) {
-                                  setState(() {
-                                    _length = value.round().toInt();
-                                    _updatePassword();
-                                  });
-                                }
-                              },
-                            ),
+                              overlayShape: const RoundSliderOverlayShape(
+                                overlayRadius: 20,
+                              )),
+                          child: Slider(
+                            value: _length.toDouble(),
+                            min: _minLength.toDouble(),
+                            max: _maxLength.toDouble(),
+                            label: _length.toString(),
+                            onChanged: (double value) {
+                              final int newLength = value.round().toInt();
+                              if (_length != newLength) {
+                                setState(() {
+                                  _length = value.round().toInt();
+                                  _updatePassword();
+                                });
+                              }
+                            },
                           ),
                         ),
-                        IconButton(
-                          splashRadius: 24,
-                          onPressed: () {
-                            if (_length < _maxLength) {
-                              setState(() {
-                                _length++;
-                              });
-                            }
-                          },
-                          icon: const Icon(Icons.add),
-                        ),
-                      ],
-                    ),
+                      ),
+                      IconButton(
+                        splashRadius: 16,
+                        padding: EdgeInsets.zero,
+                        onPressed: () {
+                          if (_length < _maxLength) {
+                            setState(() {
+                              _length++;
+                            });
+                          }
+                        },
+                        icon: const Icon(Icons.add),
+                      ),
+                    ],
                   ),
                 ),
               ),
