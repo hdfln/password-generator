@@ -48,7 +48,7 @@ class _ListTileForPcState extends State<ListTileForPc> {
             child: SliderTheme(
               data: SliderTheme.of(context).copyWith(
                   thumbShape: SliderThumbWithValue(
-                    thumbRadius: 16.0,
+                    thumbRadius: 16,
                     sliderValue: _value.toDouble(),
                   ),
                   overlayShape: const RoundSliderOverlayShape(
@@ -165,7 +165,7 @@ class IconButtonWithBorder extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        minimumSize: Size.zero,
+        minimumSize: const Size(40, 40),
         padding: EdgeInsets.zero,
       ),
       onPressed: () {
