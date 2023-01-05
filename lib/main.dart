@@ -3,6 +3,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import 'slider_with_buttons.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -32,30 +34,29 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final int _minLength = 8;
-  final int _maxLength = 32;
-  int _length = 16;
-  bool _withNumber = true;
-  bool _withSymbol = true;
-  late String _password = generatePassword(_length, _withNumber, _withSymbol);
-  final _controller = TextEditingController();
+  int length = 16;
+  bool withNumber = true;
+  bool withSymbol = true;
+  late String _password = generatePassword(length, withNumber, withSymbol);
+  final controller = TextEditingController();
 
-  void _updatePassword() {
+  void _updatePassword(int length) {
     setState(() {
-      _password = generatePassword(_length, _withNumber, _withSymbol);
-      _controller.text = _password;
+      this.length = length;
+      _password = generatePassword(length, withNumber, withSymbol);
+      controller.text = _password;
     });
   }
 
   @override
   void initState() {
     super.initState();
-    _controller.text = _password;
+    controller.text = _password;
   }
 
   @override
   void dispose() {
-    _controller.dispose();
+    controller.dispose();
     super.dispose();
   }
 
@@ -75,93 +76,39 @@ class _MyHomePageState extends State<MyHomePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Card(
-                child: ListTile(
-                  title: Row(
-                    children: [
-                      const Text('長さ'),
-                      const Spacer(),
-                      IconButton(
-                        splashRadius: 16,
-                        onPressed: () {
-                          if (_length > _minLength) {
-                            setState(() {
-                              _length--;
-                            });
-                          }
-                        },
-                        icon: const Icon(Icons.remove),
-                      ),
-                      Expanded(
-                        flex: 10,
-                        child: SliderTheme(
-                          data: SliderTheme.of(context).copyWith(
-                              thumbShape: PolygonSliderThumb(
-                                thumbRadius: 16.0,
-                                sliderValue: _length.toDouble(),
-                              ),
-                              overlayShape: const RoundSliderOverlayShape(
-                                overlayRadius: 20,
-                              )),
-                          child: Slider(
-                            value: _length.toDouble(),
-                            min: _minLength.toDouble(),
-                            max: _maxLength.toDouble(),
-                            label: _length.toString(),
-                            onChanged: (double value) {
-                              final int newLength = value.round().toInt();
-                              if (_length != newLength) {
-                                setState(() {
-                                  _length = value.round().toInt();
-                                  _updatePassword();
-                                });
-                              }
-                            },
-                          ),
-                        ),
-                      ),
-                      IconButton(
-                        splashRadius: 16,
-                        padding: EdgeInsets.zero,
-                        onPressed: () {
-                          if (_length < _maxLength) {
-                            setState(() {
-                              _length++;
-                            });
-                          }
-                        },
-                        icon: const Icon(Icons.add),
-                      ),
-                    ],
-                  ),
+                child: ListTileForPc(
+                  value: length,
+                  onChangeCallback: _updatePassword,
                 ),
               ),
               SwitchWithLabel(
                 label: '数字',
-                callbackOnChanged: (bool? value) {
+                onChangedCallback: (bool? v) {
                   setState(() {
-                    _withNumber = value!;
-                    _updatePassword();
+                    withNumber = v!;
+                    _updatePassword(length);
                   });
                 },
               ),
               SwitchWithLabel(
                 label: '記号',
-                callbackOnChanged: (bool? value) {
+                onChangedCallback: (bool? v) {
                   setState(() {
-                    _withSymbol = value!;
-                    _updatePassword();
+                    withSymbol = v!;
+                    _updatePassword(length);
                   });
                 },
               ),
               const Divider(height: 64),
               TextFormField(
-                controller: _controller,
+                // TODO: TextFormField でなくても良いか検討
+                controller: controller,
                 readOnly: true,
                 maxLines: null,
                 onTap: () {
-                  _controller.selection = TextSelection(
+                  controller.selection = TextSelection(
                     baseOffset: 0,
-                    extentOffset: _controller.value.text.length,
+                    extentOffset: controller.value.text.length,
                   );
                 },
                 decoration: InputDecoration(
@@ -171,13 +118,15 @@ class _MyHomePageState extends State<MyHomePage> {
                     borderRadius: BorderRadius.circular(8),
                     borderSide: BorderSide.none,
                   ),
+                  // TODO: ボタンだとわかりやすくする
+                  // TODO: アニメーションにする
                   suffixIcon: IconButton(
                     color: Theme.of(context).disabledColor,
                     icon: const Icon(Icons.autorenew),
                     splashRadius: 16,
                     onPressed: () {
                       setState(() {
-                        _updatePassword();
+                        _updatePassword(length);
                       });
                     },
                   ),
@@ -231,11 +180,11 @@ class SwitchWithLabel extends StatefulWidget {
   const SwitchWithLabel({
     super.key,
     required this.label,
-    required this.callbackOnChanged,
+    required this.onChangedCallback,
   });
 
   final String label;
-  final Function callbackOnChanged;
+  final Function onChangedCallback;
 
   @override
   State<SwitchWithLabel> createState() => _SwitchWithLabelState();
@@ -253,76 +202,10 @@ class _SwitchWithLabelState extends State<SwitchWithLabel> {
           setState(() {
             _value = value!;
           });
-          widget.callbackOnChanged(_value);
+          widget.onChangedCallback(_value);
         },
         value: _value,
       ),
     );
-  }
-}
-
-class PolygonSliderThumb extends SliderComponentShape {
-  final double thumbRadius;
-  final double sliderValue;
-
-  const PolygonSliderThumb({
-    required this.thumbRadius,
-    required this.sliderValue,
-  });
-
-  @override
-  Size getPreferredSize(bool isEnabled, bool isDiscrete) {
-    return Size.fromRadius(thumbRadius);
-  }
-
-  @override
-  void paint(
-    PaintingContext context,
-    Offset center, {
-    required Animation<double> activationAnimation,
-    required Animation<double> enableAnimation,
-    required bool isDiscrete,
-    required TextPainter labelPainter,
-    required RenderBox parentBox,
-    required SliderThemeData sliderTheme,
-    required TextDirection textDirection,
-    required double value,
-    required double textScaleFactor,
-    required Size sizeWithOverflow,
-  }) {
-    // Define the slider thumb design here
-    final Canvas canvas = context.canvas;
-
-    canvas.drawCircle(
-      center,
-      thumbRadius,
-      Paint()
-        ..color = sliderTheme.thumbColor ?? Colors.black
-        ..style = PaintingStyle.fill,
-    );
-
-    TextSpan span = TextSpan(
-      style: TextStyle(
-        fontSize: thumbRadius,
-        fontWeight: FontWeight.w700,
-        color: Colors.white,
-      ),
-      text: sliderValue.round().toString(),
-    );
-
-    TextPainter tp = TextPainter(
-      text: span,
-      textAlign: TextAlign.center,
-      textDirection: TextDirection.ltr,
-    );
-
-    tp.layout();
-
-    Offset textCenter = Offset(
-      center.dx - (tp.width / 2),
-      center.dy - (tp.height / 2),
-    );
-
-    tp.paint(canvas, textCenter);
   }
 }
