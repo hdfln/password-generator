@@ -100,45 +100,46 @@ class _MyHomePageState extends State<MyHomePage> {
                 },
               ),
               const Divider(height: 64),
-              Row(
-                children: [
-                  Expanded(
-                    child: TextFormField(
-                      // TODO: TextFormField でなくても良いか検討
-                      controller: controller,
-                      readOnly: true,
-                      maxLines: null,
-                      onTap: () {
-                        controller.selection = TextSelection(
-                          baseOffset: 0,
-                          extentOffset: controller.value.text.length,
-                        );
-                      },
-                      decoration: InputDecoration(
-                        filled: true,
-                        labelText: '生成されたパスワード',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide.none,
+              IntrinsicHeight(
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: TextFormField(
+                        // TODO: TextFormField でなくても良いか検討
+                        controller: controller,
+                        readOnly: true,
+                        maxLines: null,
+                        onTap: () {
+                          controller.selection = TextSelection(
+                            baseOffset: 0,
+                            extentOffset: controller.value.text.length,
+                          );
+                        },
+                        decoration: InputDecoration(
+                          filled: true,
+                          labelText: '生成されたパスワード',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide: BorderSide.none,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  // TODO: アニメーションにする
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Theme.of(context).disabledColor,
-                      padding: EdgeInsets.zero,
-                      minimumSize: const Size(60, 60),
+                    // TODO: アニメーションにする
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Theme.of(context).disabledColor,
+                        minimumSize: const Size(60, double.infinity),
+                      ),
+                      child: const Icon(Icons.autorenew),
+                      onPressed: () {
+                        setState(() {
+                          _updatePassword(length);
+                        });
+                      },
                     ),
-                    child: const Icon(Icons.autorenew),
-                    onPressed: () {
-                      setState(() {
-                        _updatePassword(length);
-                      });
-                    },
-                  ),
-                ],
+                  ],
+                ),
               ),
             ],
           ),
