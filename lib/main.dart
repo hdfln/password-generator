@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import 'animated_renew_button.dart';
 import 'slider_with_buttons.dart';
 
 void main() {
@@ -84,19 +85,15 @@ class _MyHomePageState extends State<MyHomePage> {
               SwitchWithLabel(
                 label: '数字',
                 onChangedCallback: (bool? v) {
-                  setState(() {
-                    withNumber = v!;
-                    _updatePassword(length);
-                  });
+                  withNumber = v!;
+                  _updatePassword(length);
                 },
               ),
               SwitchWithLabel(
                 label: '記号',
                 onChangedCallback: (bool? v) {
-                  setState(() {
-                    withSymbol = v!;
-                    _updatePassword(length);
-                  });
+                  withSymbol = v!;
+                  _updatePassword(length);
                 },
               ),
               const Divider(height: 64),
@@ -125,17 +122,9 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                       ),
                     ),
-                    // TODO: アニメーションにする
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Theme.of(context).disabledColor,
-                        minimumSize: const Size(60, double.infinity),
-                      ),
-                      child: const Icon(Icons.autorenew),
-                      onPressed: () {
-                        setState(() {
-                          _updatePassword(length);
-                        });
+                    AnimatedRenewButton(
+                      onPressedCallback: () {
+                        _updatePassword(length);
                       },
                     ),
                   ],
