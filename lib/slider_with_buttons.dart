@@ -47,13 +47,14 @@ class _ListTileForPcState extends State<ListTileForPc> {
             flex: 10,
             child: SliderTheme(
               data: SliderTheme.of(context).copyWith(
-                  thumbShape: SliderThumbWithValue(
-                    thumbRadius: 16,
-                    sliderValue: _value.toDouble(),
-                  ),
-                  overlayShape: const RoundSliderOverlayShape(
-                    overlayRadius: 20,
-                  )),
+                thumbShape: SliderThumbWithValue(
+                  thumbRadius: 20,
+                  sliderValue: _value.toDouble(),
+                ),
+                overlayShape: const RoundSliderOverlayShape(
+                  overlayRadius: 24,
+                ),
+              ),
               child: Slider(
                 value: _value.toDouble(),
                 min: _min.toDouble(),
