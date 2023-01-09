@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import 'password_model.dart';
 
 class SwitchWithLabel extends StatefulWidget {
   const SwitchWithLabel({
     super.key,
-    required this.label,
-    required this.onChangedCallback,
+    required this.title,
+    required this.type,
   });
 
-  final String label;
-  final Function onChangedCallback;
+  final String title;
+  final IncludeCharType type;
 
   @override
   State<SwitchWithLabel> createState() => _SwitchWithLabelState();
@@ -21,12 +24,15 @@ class _SwitchWithLabelState extends State<SwitchWithLabel> {
   Widget build(BuildContext context) {
     return Card(
       child: SwitchListTile(
-        title: Text(widget.label),
+        title: Text(widget.title),
         onChanged: (bool? value) {
           setState(() {
             _value = value!;
           });
-          widget.onChangedCallback(_value);
+          Provider.of<PasswordModel>(
+            context,
+            listen: false,
+          ).setIncludeChars(widget.type, _value);
         },
         value: _value,
       ),

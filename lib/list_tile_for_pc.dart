@@ -1,32 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:password_generator/password_model.dart';
+import 'package:provider/provider.dart';
 
-class ListTileForPc extends StatefulWidget {
-  const ListTileForPc({
-    super.key,
-    required this.value,
-    required this.onChangeCallback,
-  });
+class ListTileForPc extends StatelessWidget {
+  const ListTileForPc({super.key});
 
-  final int value;
-  final Function onChangeCallback;
-
-  @override
-  State<ListTileForPc> createState() => _ListTileForPcState();
-}
-
-class _ListTileForPcState extends State<ListTileForPc> {
   final int _min = 8;
   final int _max = 32;
-  late int _value;
-
-  @override
-  void initState() {
-    _value = widget.value;
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
+    int value = context.read<PasswordModel>().length;
     return ListTile(
       title: Row(
         children: [
@@ -35,11 +19,12 @@ class _ListTileForPcState extends State<ListTileForPc> {
           IconButtonWithBorder(
             icon: const Icon(Icons.remove),
             onPressedCallback: () {
-              if (_value > _min) {
-                setState(() {
-                  _value--;
-                });
-                widget.onChangeCallback(_value);
+              if (value > _min) {
+                value--;
+                Provider.of<PasswordModel>(
+                  context,
+                  listen: false,
+                ).setLength(value);
               }
             },
           ),
@@ -49,24 +34,25 @@ class _ListTileForPcState extends State<ListTileForPc> {
               data: SliderTheme.of(context).copyWith(
                 thumbShape: SliderThumbWithValue(
                   thumbRadius: 20,
-                  sliderValue: _value.toDouble(),
+                  sliderValue:
+                      Provider.of<PasswordModel>(context).length.toDouble(),
                 ),
                 overlayShape: const RoundSliderOverlayShape(
                   overlayRadius: 24,
                 ),
               ),
               child: Slider(
-                value: _value.toDouble(),
+                value: value.toDouble(),
                 min: _min.toDouble(),
                 max: _max.toDouble(),
-                label: _value.toString(),
+                label: value.toString(),
                 onChanged: (double v) {
                   final int newValue = v.round().toInt();
-                  if (_value != newValue) {
-                    setState(() {
-                      _value = newValue;
-                    });
-                    widget.onChangeCallback(_value);
+                  if (value != newValue) {
+                    Provider.of<PasswordModel>(
+                      context,
+                      listen: false,
+                    ).setLength(newValue);
                   }
                 },
               ),
@@ -74,11 +60,12 @@ class _ListTileForPcState extends State<ListTileForPc> {
           ),
           IconButtonWithBorder(
             onPressedCallback: () {
-              if (_value < _max) {
-                setState(() {
-                  _value++;
-                });
-                widget.onChangeCallback(_value);
+              if (value < _max) {
+                value++;
+                Provider.of<PasswordModel>(
+                  context,
+                  listen: false,
+                ).setLength(value);
               }
             },
             icon: const Icon(Icons.add),

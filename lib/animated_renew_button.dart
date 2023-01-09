@@ -1,13 +1,14 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import 'password_model.dart';
 
 class AnimatedRenewButton extends StatefulWidget {
   const AnimatedRenewButton({
     super.key,
-    required this.onPressedCallback,
   });
-  final Function onPressedCallback;
 
   @override
   State<AnimatedRenewButton> createState() => _AnimatedRenewButtonState();
@@ -64,7 +65,10 @@ class _AnimatedRenewButtonState extends State<AnimatedRenewButton>
       ),
       onPressed: () {
         _animationChange();
-        widget.onPressedCallback();
+        Provider.of<PasswordModel>(
+          context,
+          listen: false,
+        ).update();
       },
     );
   }
