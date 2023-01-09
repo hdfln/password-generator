@@ -57,7 +57,7 @@ class _AnimatedRenewButtonState extends State<AnimatedRenewButton>
       ),
       child: AnimatedBuilder(
         animation: _controller,
-        builder: (BuildContext context, child) => child!,
+        builder: (_, child) => child!,
         child: Transform.rotate(
           angle: _rotateAnimation.value,
           child: const Icon(Icons.autorenew),

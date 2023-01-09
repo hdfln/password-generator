@@ -10,7 +10,7 @@ class ListTileForPc extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int value = context.read<PasswordModel>().length;
+    int value = context.watch<PasswordModel>().length;
     return ListTile(
       title: Row(
         children: [
@@ -34,8 +34,7 @@ class ListTileForPc extends StatelessWidget {
               data: SliderTheme.of(context).copyWith(
                 thumbShape: SliderThumbWithValue(
                   thumbRadius: 20,
-                  sliderValue:
-                      Provider.of<PasswordModel>(context).length.toDouble(),
+                  sliderValue: value.toDouble(),
                 ),
                 overlayShape: const RoundSliderOverlayShape(
                   overlayRadius: 24,

@@ -37,7 +37,7 @@ class _MyHomePageState extends State<MyHomePage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Card(
-                  child: LayoutBuilder(builder: (context, constraints) {
+                  child: LayoutBuilder(builder: (_, constraints) {
                     return constraints.maxWidth > 500
                         ? const ListTileForPc()
                         : const ListTileForMobile();
