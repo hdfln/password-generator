@@ -24,15 +24,14 @@ class ListTileForMobile extends StatelessWidget {
           context: context,
           builder: (builderContext) {
             return SimpleDialog(
-              insetPadding: const EdgeInsets.symmetric(
-                horizontal: 40,
-                vertical: 40,
-              ),
               children: range(8, 32)
                   .map(
                     (e) => SimpleDialogOption(
                       child: InkWell(
-                        child: Text(e.toString()),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(e.toString()),
+                        ),
                       ),
                       onPressed: () {
                         Navigator.pop(builderContext, e);
