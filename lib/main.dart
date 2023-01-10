@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_web_plugins/url_strategy.dart';
 
 import 'my_home_page.dart';
 
 void main() {
+  usePathUrlStrategy();
   runApp(const MyApp());
 }
 
