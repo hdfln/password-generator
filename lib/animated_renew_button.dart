@@ -49,12 +49,7 @@ class _AnimatedRenewButtonState extends State<AnimatedRenewButton>
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Theme.of(context).disabledColor,
-        padding: EdgeInsets.zero,
-        minimumSize: const Size(60, double.infinity),
-      ),
+    return FloatingActionButton(
       child: AnimatedBuilder(
         animation: _controller,
         builder: (_, child) => child!,

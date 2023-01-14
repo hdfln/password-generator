@@ -14,11 +14,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Random Password Generator',
+      title: 'Password Generator',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Random Password Generator'),
+      home: const MyHomePage(),
     );
   }
 }

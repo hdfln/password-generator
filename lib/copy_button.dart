@@ -17,7 +17,7 @@ class CopyButton extends StatelessWidget {
       ).then(
         (_) => ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text('Copied to your clipboard!'),
+            content: Text('コピーされました！'),
           ),
         ),
       ),

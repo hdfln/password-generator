@@ -9,23 +9,22 @@ import 'password_field.dart';
 import 'password_model.dart';
 import 'switch_with_label.dart';
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+class MyHomePage extends StatelessWidget {
+  const MyHomePage({super.key});
 
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (_) => PasswordModel(),
       child: Scaffold(
         appBar: AppBar(
-          title: Text(widget.title),
+          title: Row(
+            children: const [
+              Text('Password Generator'),
+              SizedBox(width: 8),
+              Icon(Icons.lock),
+            ],
+          ),
         ),
         body: Center(
           child: Container(

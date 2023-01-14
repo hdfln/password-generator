@@ -16,9 +16,9 @@ class ListTileForPc extends StatelessWidget {
         children: [
           const Text('長さ'),
           const Spacer(),
-          IconButtonWithBorder(
+          ColoredIconButton(
             icon: const Icon(Icons.remove),
-            onPressedCallback: () {
+            onPressed: () {
               if (value > _min) {
                 value--;
                 Provider.of<PasswordModel>(
@@ -57,8 +57,8 @@ class ListTileForPc extends StatelessWidget {
               ),
             ),
           ),
-          IconButtonWithBorder(
-            onPressedCallback: () {
+          ColoredIconButton(
+            onPressed: () {
               if (value < _max) {
                 value++;
                 Provider.of<PasswordModel>(
@@ -141,24 +141,24 @@ class SliderThumbWithValue extends SliderComponentShape {
   }
 }
 
-class IconButtonWithBorder extends StatelessWidget {
-  const IconButtonWithBorder(
-      {super.key, required this.onPressedCallback, required this.icon});
+class ColoredIconButton extends StatelessWidget {
+  const ColoredIconButton(
+      {super.key, required this.onPressed, required this.icon});
 
   final Icon icon;
-  final Function onPressedCallback;
+  final Function onPressed;
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        minimumSize: const Size(40, 40),
+    return IconButton(
+      style: IconButton.styleFrom(
+        minimumSize: const Size(48, 48),
         padding: EdgeInsets.zero,
       ),
       onPressed: () {
-        onPressedCallback();
+        onPressed();
       },
-      child: icon,
+      icon: icon,
     );
   }
 }
