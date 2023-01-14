@@ -38,9 +38,10 @@ class PasswordModel extends ChangeNotifier {
     final Random random = Random.secure();
 
     while (true) {
-      final String randomStr =
-          List.generate(length, (_) => charset[random.nextInt(charset.length)])
-              .join();
+      final String randomStr = List.generate(
+        length,
+        (_) => charset[random.nextInt(charset.length)],
+      ).join();
 
       if (includeChars[IncludeCharType.number]! &&
           !isCharOverlap(randomStr, numbers)) {
