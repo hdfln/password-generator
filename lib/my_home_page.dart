@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:password_generator/copy_button.dart';
+import 'package:password_generator/renew_button.dart';
 import 'package:provider/provider.dart';
 
-import 'animated_renew_button.dart';
 import 'list_tile_for_mobile.dart';
 import 'list_tile_for_pc.dart';
 import 'password_field.dart';
@@ -34,6 +34,7 @@ class MyHomePage extends StatelessWidget {
             constraints: const BoxConstraints(maxWidth: 640),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 Card(
                   child: LayoutBuilder(builder: (_, constraints) {
@@ -50,15 +51,10 @@ class MyHomePage extends StatelessWidget {
                   title: '記号',
                   type: IncludeCharType.symbol,
                 ),
+                const SizedBox(height: 4),
+                const RenewButton(),
                 const Divider(height: 64),
-                IntrinsicHeight(
-                  child: Row(
-                    children: const [
-                      Expanded(child: PasswordField()),
-                      AnimatedRenewButton(),
-                    ],
-                  ),
-                ),
+                const PasswordField(),
               ],
             ),
           ),
