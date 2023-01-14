@@ -36,6 +36,8 @@ class MyHomePage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
+                const PasswordField(),
+                const Divider(),
                 Card(
                   child: LayoutBuilder(builder: (_, constraints) {
                     return constraints.maxWidth > 500
@@ -53,8 +55,6 @@ class MyHomePage extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 const RenewButton(),
-                const Divider(height: 64),
-                const PasswordField(),
               ],
             ),
           ),
