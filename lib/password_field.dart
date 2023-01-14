@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import 'password_model.dart';
@@ -8,29 +9,37 @@ class PasswordField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = TextEditingController();
-    controller.text = context.watch<PasswordModel>().text;
-    // print(controller.text);
+    final String text = context.watch<PasswordModel>().text;
 
-    return TextFormField(
-      // TODO: TextFormField でなくても良いか検討
-      controller: controller,
-      readOnly: true,
-      maxLines: null,
-      onTap: () {
-        controller.selection = TextSelection(
-          baseOffset: 0,
-          extentOffset: controller.value.text.length,
-        );
-      },
-      decoration: InputDecoration(
-        filled: true,
-        labelText: '生成されたパスワード',
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: BorderSide.none,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Padding(
+          padding: EdgeInsets.only(left: 8.0),
+          child: Text('生成されたパスワード'),
         ),
-      ),
+        Card(
+          child: ListTile(
+            title: Text(
+              text,
+              style: Theme.of(context).textTheme.headline6,
+            ),
+            onTap: () => Clipboard.setData(
+              ClipboardData(
+                text: context.read<PasswordModel>().text,
+              ),
+            ).then(
+              (_) => ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text(
+                    'コピーされました！',
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
