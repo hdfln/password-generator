@@ -39,19 +39,23 @@ class MyHomePage extends StatelessWidget {
                 const PasswordField(),
                 const Divider(),
                 Card(
-                  child: LayoutBuilder(builder: (_, constraints) {
-                    return constraints.maxWidth > 500
-                        ? const ListTileForPc()
-                        : const ListTileForMobile();
-                  }),
-                ),
-                const SwitchWithLabel(
-                  title: '数字',
-                  type: IncludeCharType.number,
-                ),
-                const SwitchWithLabel(
-                  title: '記号',
-                  type: IncludeCharType.symbol,
+                  child: Column(
+                    children: [
+                      LayoutBuilder(builder: (_, constraints) {
+                        return constraints.maxWidth > 500
+                            ? const ListTileForPc()
+                            : const ListTileForMobile();
+                      }),
+                      const SwitchWithLabel(
+                        title: '数字',
+                        type: IncludeCharType.number,
+                      ),
+                      const SwitchWithLabel(
+                        title: '記号',
+                        type: IncludeCharType.symbol,
+                      ),
+                    ],
+                  ),
                 ),
                 const SizedBox(height: 4),
                 const RenewButton(),

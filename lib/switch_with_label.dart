@@ -22,20 +22,18 @@ class _SwitchWithLabelState extends State<SwitchWithLabel> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: SwitchListTile(
-        title: Text(widget.title),
-        onChanged: (bool? value) {
-          setState(() {
-            _value = value!;
-          });
-          Provider.of<PasswordModel>(
-            context,
-            listen: false,
-          ).setIncludeChars(widget.type, _value);
-        },
-        value: _value,
-      ),
+    return SwitchListTile(
+      title: Text(widget.title),
+      onChanged: (bool? value) {
+        setState(() {
+          _value = value!;
+        });
+        Provider.of<PasswordModel>(
+          context,
+          listen: false,
+        ).setIncludeChars(widget.type, _value);
+      },
+      value: _value,
     );
   }
 }
