@@ -37,7 +37,7 @@ class MyHomePage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 const PasswordField(),
-                const Divider(),
+                const SizedBox(height: 8),
                 Card(
                   child: Column(
                     children: [
@@ -57,7 +57,7 @@ class MyHomePage extends StatelessWidget {
                     ],
                   ),
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: 8),
                 const RenewButton(),
               ],
             ),

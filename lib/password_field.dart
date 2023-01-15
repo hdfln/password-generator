@@ -1,3 +1,4 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:password_generator/utils.dart';
 import 'package:provider/provider.dart';
@@ -9,22 +10,30 @@ class PasswordField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final String text = context.watch<PasswordModel>().text;
-
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const Padding(
-          padding: EdgeInsets.only(left: 8.0),
-          child: Text('生成されたパスワード'),
-        ),
         Card(
+          elevation: 0,
+          color: Colors.black87,
           child: ListTile(
-            title: Text(
-              text,
-              style: Theme.of(context).textTheme.headline6,
+            title: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: AnimatedTextKit(
+                key: UniqueKey(),
+                isRepeatingAnimation: false,
+                animatedTexts: [
+                  TypewriterAnimatedText(
+                    context.watch<PasswordModel>().text,
+                    textStyle:
+                        Theme.of(context).textTheme.displaySmall?.copyWith(
+                              color: Colors.green,
+                            ),
+                  ),
+                ],
+                onTap: () => copyToClipboard(context),
+              ),
             ),
-            onTap: () => copyToClipboard(context),
           ),
         ),
       ],
