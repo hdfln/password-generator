@@ -18,18 +18,18 @@ const RESOURCES = {
 "splash/img/light-2x.png": "66fcb47f7e704f95fff38473c5212205",
 "splash/style.css": "1ce5a451fa8a7d0c4314c1f87e8f7573",
 "splash/splash.js": "123c400b58bea74c1305ca3ac966748d",
-"main.dart.js": "ff6f2a3c1845b63c461797308153e411",
+"main.dart.js": "fddfb6785553cf05531bf6e9b28e3ab3",
 "canvaskit/canvaskit.js": "2bc454a691c631b07a9307ac4ca47797",
 "canvaskit/profiling/canvaskit.js": "38164e5a72bdad0faa4ce740c9b8e564",
 "canvaskit/profiling/canvaskit.wasm": "95a45378b69e77af5ed2bc72b2209b94",
 "canvaskit/canvaskit.wasm": "bf50631470eb967688cca13ee181af62",
-"index.html": "a0a60d229bbd15c25642302b621ab53d",
-"/": "a0a60d229bbd15c25642302b621ab53d",
+"index.html": "fe46194a52b30281cce2b3397238ebd0",
+"/": "fe46194a52b30281cce2b3397238ebd0",
 "assets/AssetManifest.json": "2efbb41d7877d10aac9d091f58ccd7b9",
 "assets/packages/cupertino_icons/assets/CupertinoIcons.ttf": "6d342eb68f170c97609e9da345464e5e",
 "assets/fonts/MaterialIcons-Regular.otf": "95db9098c58fd6db106f1116bae85a0b",
 "assets/shaders/ink_sparkle.frag": "ab4751ef630837e294889ca64470bb70",
-"assets/NOTICES": "8904484dc737ab41397114289b717533",
+"assets/NOTICES": "0fdfdd875a9d3481537f7bb7c4895eab",
 "assets/FontManifest.json": "dc3d03800ccca4601324923c0b1d6d57"
 };
 
