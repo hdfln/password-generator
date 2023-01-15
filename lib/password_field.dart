@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:password_generator/utils.dart';
 import 'package:provider/provider.dart';
 
 import 'password_model.dart';
@@ -24,19 +24,7 @@ class PasswordField extends StatelessWidget {
               text,
               style: Theme.of(context).textTheme.headline6,
             ),
-            onTap: () => Clipboard.setData(
-              ClipboardData(
-                text: context.read<PasswordModel>().text,
-              ),
-            ).then(
-              (_) => ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text(
-                    'コピーされました！',
-                  ),
-                ),
-              ),
-            ),
+            onTap: () => copyToClipboard(context),
           ),
         ),
       ],

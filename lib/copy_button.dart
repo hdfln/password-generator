@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
-
-import 'password_model.dart';
+import 'package:password_generator/utils.dart';
 
 class CopyButton extends StatelessWidget {
   const CopyButton({super.key});
@@ -10,17 +7,7 @@ class CopyButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
-      onPressed: () => Clipboard.setData(
-        ClipboardData(
-          text: context.read<PasswordModel>().text,
-        ),
-      ).then(
-        (_) => ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('コピーされました！'),
-          ),
-        ),
-      ),
+      onPressed: () => copyToClipboard(context),
       tooltip: 'コピー',
       child: const Icon(Icons.copy),
     );
