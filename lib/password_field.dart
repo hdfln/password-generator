@@ -17,21 +17,25 @@ class PasswordField extends StatelessWidget {
           elevation: 0,
           color: Colors.black87,
           child: ListTile(
+            onTap: () {
+              copyToClipboard(context);
+            },
             title: Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: AnimatedTextKit(
-                key: UniqueKey(),
-                isRepeatingAnimation: false,
-                animatedTexts: [
-                  TypewriterAnimatedText(
-                    context.watch<PasswordModel>().text,
-                    textStyle:
-                        Theme.of(context).textTheme.displaySmall?.copyWith(
-                              color: Colors.green,
-                            ),
-                  ),
-                ],
-                onTap: () => copyToClipboard(context),
+              child: AbsorbPointer(
+                child: AnimatedTextKit(
+                  key: UniqueKey(),
+                  isRepeatingAnimation: false,
+                  animatedTexts: [
+                    TypewriterAnimatedText(
+                      context.watch<PasswordModel>().text,
+                      textStyle: Theme.of(context)
+                          .textTheme
+                          .displaySmall
+                          ?.copyWith(color: Colors.green),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

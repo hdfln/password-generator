@@ -31,7 +31,7 @@ class _SwitchWithLabelState extends State<SwitchWithLabel> {
         Provider.of<PasswordModel>(
           context,
           listen: false,
-        ).setIncludeChars(widget.type, _value);
+        ).setIncludeCharType(widget.type, _value);
       },
       value: _value,
     );

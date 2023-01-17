@@ -3,7 +3,13 @@ import 'package:password_generator/password_model.dart';
 import 'package:provider/provider.dart';
 
 class ListTileForMobile extends StatelessWidget {
-  const ListTileForMobile({super.key});
+  const ListTileForMobile({
+    super.key,
+    required this.minValue,
+    required this.maxValue,
+  });
+  final int minValue;
+  final int maxValue;
 
   Iterable<int> range(int start, int end) {
     return Iterable<int>.generate(end - start + 1).map((e) => e + start);
@@ -24,21 +30,18 @@ class ListTileForMobile extends StatelessWidget {
           context: context,
           builder: (builderContext) {
             return SimpleDialog(
-              children: range(8, 32)
+              children: range(minValue, maxValue)
                   .map(
-                    (e) => SimpleDialogOption(
+                    (value) => SimpleDialogOption(
                       child: InkWell(
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Text(e.toString()),
+                          child: Text(value.toString()),
                         ),
                       ),
                       onPressed: () {
-                        Navigator.pop(builderContext, e);
-                        Provider.of<PasswordModel>(
-                          context,
-                          listen: false,
-                        ).setLength(e);
+                        Navigator.pop(builderContext, value);
+                        context.read<PasswordModel>().setLength(value);
                       },
                     ),
                   )

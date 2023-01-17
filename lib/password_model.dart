@@ -3,8 +3,11 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 class PasswordModel extends ChangeNotifier {
+  int minLength = 8;
+  int maxLength = 64;
   int length = 16;
   Map<IncludeCharType, bool> includeChars = {
+    IncludeCharType.capital: true,
     IncludeCharType.number: true,
     IncludeCharType.symbol: true,
   };
@@ -16,7 +19,7 @@ class PasswordModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setIncludeChars(IncludeCharType key, bool value) {
+  void setIncludeCharType(IncludeCharType key, bool value) {
     includeChars[key] = value;
     text = generatePassword();
     notifyListeners();
@@ -28,11 +31,12 @@ class PasswordModel extends ChangeNotifier {
   }
 
   String generatePassword() {
-    const String alphabets =
-        'ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz';
+    const String lowercase = 'abcdefghijklmnopqrstuvwxyz';
+    const String uppercase = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     const String numbers = '0123456789';
     const String symbols = '!@#\$%^&*()\'"=_`:;?~|+-\\/[]{}<>';
-    String charset = alphabets;
+    String charset = lowercase;
+    if (includeChars[IncludeCharType.capital]!) charset += uppercase;
     if (includeChars[IncludeCharType.number]!) charset += numbers;
     if (includeChars[IncludeCharType.symbol]!) charset += symbols;
     final Random random = Random.secure();
@@ -61,6 +65,7 @@ class PasswordModel extends ChangeNotifier {
 }
 
 enum IncludeCharType {
+  capital,
   number,
   symbol,
 }

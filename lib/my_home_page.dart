@@ -41,11 +41,24 @@ class MyHomePage extends StatelessWidget {
                 Card(
                   child: Column(
                     children: [
-                      LayoutBuilder(builder: (_, constraints) {
-                        return constraints.maxWidth > 500
-                            ? const ListTileForPc()
-                            : const ListTileForMobile();
-                      }),
+                      Consumer<PasswordModel>(
+                        builder: ((context, passwordModel, child) =>
+                            LayoutBuilder(builder: (_, constraints) {
+                              return constraints.maxWidth > 500
+                                  ? ListTileForPc(
+                                      minValue: passwordModel.minLength,
+                                      maxValue: passwordModel.maxLength,
+                                    )
+                                  : ListTileForMobile(
+                                      minValue: passwordModel.minLength,
+                                      maxValue: passwordModel.maxLength,
+                                    );
+                            })),
+                      ),
+                      const SwitchWithLabel(
+                        title: '大文字',
+                        type: IncludeCharType.capital,
+                      ),
                       const SwitchWithLabel(
                         title: '数字',
                         type: IncludeCharType.number,

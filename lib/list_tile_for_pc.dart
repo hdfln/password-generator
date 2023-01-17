@@ -3,10 +3,11 @@ import 'package:password_generator/password_model.dart';
 import 'package:provider/provider.dart';
 
 class ListTileForPc extends StatelessWidget {
-  const ListTileForPc({super.key});
+  const ListTileForPc(
+      {super.key, required this.minValue, required this.maxValue});
 
-  final int _min = 8;
-  final int _max = 32;
+  final int minValue;
+  final int maxValue;
 
   @override
   Widget build(BuildContext context) {
@@ -19,12 +20,9 @@ class ListTileForPc extends StatelessWidget {
           ColoredIconButton(
             icon: const Icon(Icons.remove),
             onPressed: () {
-              if (value > _min) {
+              if (value > minValue) {
                 value--;
-                Provider.of<PasswordModel>(
-                  context,
-                  listen: false,
-                ).setLength(value);
+                context.read<PasswordModel>().setLength(value);
               }
             },
           ),
@@ -42,16 +40,13 @@ class ListTileForPc extends StatelessWidget {
               ),
               child: Slider(
                 value: value.toDouble(),
-                min: _min.toDouble(),
-                max: _max.toDouble(),
+                min: minValue.toDouble(),
+                max: maxValue.toDouble(),
                 label: value.toString(),
                 onChanged: (double v) {
                   final int newValue = v.round().toInt();
                   if (value != newValue) {
-                    Provider.of<PasswordModel>(
-                      context,
-                      listen: false,
-                    ).setLength(newValue);
+                    context.read<PasswordModel>().setLength(newValue);
                   }
                 },
               ),
@@ -59,12 +54,9 @@ class ListTileForPc extends StatelessWidget {
           ),
           ColoredIconButton(
             onPressed: () {
-              if (value < _max) {
+              if (value < maxValue) {
                 value++;
-                Provider.of<PasswordModel>(
-                  context,
-                  listen: false,
-                ).setLength(value);
+                context.read<PasswordModel>().setLength(value);
               }
             },
             icon: const Icon(Icons.add),
