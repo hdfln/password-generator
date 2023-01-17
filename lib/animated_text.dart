@@ -6,10 +6,10 @@ class AnimatedText extends StatefulWidget {
   final TextStyle? style;
 
   @override
-  State<AnimatedText> createState() => _AnimatedTextState();
+  State<AnimatedText> createState() => AnimatedTextState();
 }
 
-class _AnimatedTextState extends State<AnimatedText>
+class AnimatedTextState extends State<AnimatedText>
     with SingleTickerProviderStateMixin {
   late Animation<double> animation;
   late AnimationController controller;
@@ -70,5 +70,9 @@ class _AnimatedTextState extends State<AnimatedText>
           )
           .toList(),
     );
+  }
+
+  void finishAnimation() {
+    controller.animateTo(1.0, duration: const Duration(microseconds: 1));
   }
 }

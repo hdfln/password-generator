@@ -10,6 +10,8 @@ class PasswordField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    GlobalKey<AnimatedTextState> animatedTextKey =
+        GlobalKey<AnimatedTextState>();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -19,11 +21,12 @@ class PasswordField extends StatelessWidget {
           child: ListTile(
             onTap: () {
               copyToClipboard(context);
+              animatedTextKey.currentState?.finishAnimation();
             },
             title: Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: AnimatedText(
-                key: UniqueKey(),
+                key: animatedTextKey,
                 text: context.watch<PasswordModel>().text,
                 style: Theme.of(context)
                     .textTheme
