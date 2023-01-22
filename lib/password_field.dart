@@ -27,7 +27,7 @@ class PasswordField extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: AnimatedText(
                 key: animatedTextKey,
-                text: context.watch<PasswordModel>().text,
+                text: context.select((PasswordModel p) => p.text),
                 style: Theme.of(context)
                     .textTheme
                     .displaySmall

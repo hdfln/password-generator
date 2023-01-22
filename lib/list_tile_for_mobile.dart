@@ -22,7 +22,7 @@ class ListTileForMobile extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           const Text('長さ'),
-          Text(context.watch<PasswordModel>().length.toString()),
+          Text(context.select(((PasswordModel p) => p.length)).toString()),
         ],
       ),
       onTap: () {

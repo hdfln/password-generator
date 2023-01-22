@@ -11,7 +11,7 @@ class ListTileForPc extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int value = context.watch<PasswordModel>().length;
+    int value = context.select((PasswordModel p) => p.length);
     return ListTile(
       title: Row(
         children: [
