@@ -6,7 +6,9 @@ class PasswordModel extends ChangeNotifier {
   int minLength = 8;
   int maxLength = 64;
   int length = 16;
-  Map<IncludeCharType, bool> includeChars = {
+
+  Map<IncludeCharType, bool> includeCharTypes = {
+    IncludeCharType.lowercase: true,
     IncludeCharType.capital: true,
     IncludeCharType.number: true,
     IncludeCharType.symbol: true,
@@ -20,7 +22,7 @@ class PasswordModel extends ChangeNotifier {
   }
 
   void setIncludeCharType(IncludeCharType key, bool value) {
-    includeChars[key] = value;
+    includeCharTypes[key] = value;
     text = generatePassword();
     notifyListeners();
   }
@@ -31,40 +33,55 @@ class PasswordModel extends ChangeNotifier {
   }
 
   String generatePassword() {
-    const String lowercase = 'abcdefghijklmnopqrstuvwxyz';
-    const String uppercase = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    const String numbers = '0123456789';
-    const String symbols = '!@#\$%^&*()\'"=_`:;?~|+-\\/[]{}<>';
-    String charset = lowercase;
-    if (includeChars[IncludeCharType.capital]!) charset += uppercase;
-    if (includeChars[IncludeCharType.number]!) charset += numbers;
-    if (includeChars[IncludeCharType.symbol]!) charset += symbols;
+    const Map<IncludeCharType, String> includeChars = {
+      IncludeCharType.lowercase: 'abcdefghijklmnopqrstuvwxyz',
+      IncludeCharType.capital: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
+      IncludeCharType.number: '0123456789',
+      IncludeCharType.symbol: '!@#\$%^&*()\'"=_`:;?~|+-\\/[]{}<>'
+    };
+    String charset = '';
+    for (IncludeCharType charType in includeCharTypes.keys) {
+      if (includeCharTypes[charType]!) {
+        charset += includeChars[charType]!;
+      }
+    }
     final Random random = Random.secure();
 
     while (true) {
+      bool hasNecessaryChars = true;
+
       final String randomStr = List.generate(
         length,
         (_) => charset[random.nextInt(charset.length)],
       ).join();
 
-      if (includeChars[IncludeCharType.number]! &&
-          !isCharOverlap(randomStr, numbers)) {
+      for (IncludeCharType charType in includeCharTypes.keys) {
+        if (includeCharTypes[charType]! &&
+            !hasCharIntersection(randomStr, includeChars[charType]!)) {
+          hasNecessaryChars = false;
+          break;
+        }
+      }
+
+      if (!hasNecessaryChars) {
         continue;
       }
-      if (includeChars[IncludeCharType.symbol]! &&
-          !isCharOverlap(randomStr, symbols)) {
-        continue;
-      }
+
       return randomStr;
     }
   }
 
-  bool isCharOverlap(String s, String chars) {
-    return s.split('').toSet().intersection(chars.split('').toSet()).isNotEmpty;
+  bool hasCharIntersection(String a, String b) {
+    return getCharSet(a).intersection(getCharSet(b)).isNotEmpty;
+  }
+
+  Set<String> getCharSet(String s) {
+    return s.split('').toSet();
   }
 }
 
 enum IncludeCharType {
+  lowercase,
   capital,
   number,
   symbol,
