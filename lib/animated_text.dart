@@ -73,6 +73,6 @@ class AnimatedTextState extends State<AnimatedText>
   }
 
   void finishAnimation() {
-    controller.animateTo(1.0, duration: const Duration(microseconds: 1));
+    controller.forward(from: 1.0);
   }
 }
