@@ -1,11 +1,13 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:password_generator/animated_text.dart';
 
 class PasswordModel extends ChangeNotifier {
   int minLength = 8;
   int maxLength = 64;
   int length = 16;
+  late GlobalKey<AnimatedTextState> key;
 
   Map<IncludeCharType, bool> includeCharTypes = {
     IncludeCharType.lowercase: true,
@@ -30,6 +32,10 @@ class PasswordModel extends ChangeNotifier {
   void update() {
     text = generatePassword();
     notifyListeners();
+  }
+
+  void setKey(GlobalKey<AnimatedTextState> key) {
+    this.key = key;
   }
 
   String generatePassword() {

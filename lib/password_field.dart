@@ -12,6 +12,8 @@ class PasswordField extends StatelessWidget {
   Widget build(BuildContext context) {
     GlobalKey<AnimatedTextState> animatedTextKey =
         GlobalKey<AnimatedTextState>();
+    context.read<PasswordModel>().setKey(animatedTextKey);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
