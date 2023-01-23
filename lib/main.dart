@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
+import 'package:password_generator/password_model.dart';
+import 'package:provider/provider.dart';
 
 import 'my_home_page.dart';
 
@@ -18,7 +20,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         useMaterial3: true,
       ),
-      home: const MyHomePage(),
+      home: ChangeNotifierProvider(
+        create: (_) => PasswordModel(),
+        child: const MyHomePage(),
+      ),
     );
   }
 }

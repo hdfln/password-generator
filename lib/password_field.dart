@@ -21,7 +21,7 @@ class PasswordField extends StatelessWidget {
           child: ListTile(
             onTap: () {
               copyToClipboard(context);
-              animatedTextKey.currentState?.finishAnimation();
+              animatedTextKey.currentState!.finishAnimation();
             },
             title: Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -30,8 +30,8 @@ class PasswordField extends StatelessWidget {
                 text: context.select((PasswordModel p) => p.text),
                 style: Theme.of(context)
                     .textTheme
-                    .displaySmall
-                    ?.copyWith(color: Colors.green),
+                    .displaySmall!
+                    .copyWith(color: Colors.green),
               ),
             ),
           ),
